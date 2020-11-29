@@ -1,134 +1,125 @@
-import React, { useState } from "react"
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Keyboard
-} from "react-native"
-import { useDispatch } from "react-redux"
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Text, View, TextInput, StyleSheet } from 'react-native';
+import TouchButton from './TouchButton';
+import { gray, green } from '../utils/colors';
+import { connect } from 'react-redux';
+import { addCardToDeck } from '../actions/index';
+import { addCardToDeckAS } from '../utils/api';
 
-import { handleAddCard } from "../actions"
-import { headerStyle } from "../utils/helpers"
-import { secondaryLight, std, standout, standoutLight } from "../utils/colors"
+export class AddCard extends Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
+    addCardToDeck: PropTypes.func.isRequired
+  };
+  state = {
+    question: '',
+    answer: ''
+  };
+  handleQuestionChange = question => {
+    this.setState({ question });
+  };
+  handleAnswerChange = answer => {
+    this.setState({ answer });
+  };
+  handleSubmit = () => {
+    const { addCardToDeck, title, navigation } = this.props;
+    const card = {
+      question: this.state.question,
+      answer: this.state.answer
+    };
 
-export function AddCardOptions ({ route }) {
-  const { title } = route.params;
-  return headerStyle(`Add Card to ${title}`)
-}
+    addCardToDeck(title, card);
+    addCardToDeckAS(title, card);
 
-export default function AddCard ({ route, navigation }) {
-  const [question, setQuestion] = useState("")
-  const [answer, setAnswer] = useState("")
-  const [questionInvalid, setQuestionInvalid] = useState(false)
-  const [answerInvalid, setAnswerInvalid] = useState(false)
-
-  const onBlur = () => {
-    Keyboard.dismiss()
-  }
-
-  const dispatch = useDispatch()
-  const addCard = () => {
-    const { title } = route.params
-
-    if (question.replace(" ", "") === "") {
-      setQuestionInvalid(true)
-      return
-    }
-
-    if (answer.replace(" ", "") === "") {
-      setAnswerInvalid(true)
-      return
-    }
-
-    dispatch(handleAddCard({ question, answer, name: title }))
-    Keyboard.dismiss();
-    setQuestion("")
-    setAnswer("")
-    setQuestionInvalid(false)
-    setAnswerInvalid(false)
-    navigation.goBack()
-  }
-
-  return (
-    <ScrollView>
-      <View>
-        <TextInput
-          style={[styles.input, questionInvalid
-            ? styles.invalid
-            : styles.valid]}
-          placeholder="Enter question"
-          value={question}
-          onChangeText={newQuestion => {
-            if (newQuestion.replace(" ", "") === "") {
-              setQuestion(newQuestion)
-              setQuestionInvalid(true)
-            }
-            else {
-              setQuestion(newQuestion)
-              setQuestionInvalid(false)
-
-            }
-          }}
-          onBlur={onBlur}
-        ></TextInput>
-        <TextInput
-          style={[styles.input, answerInvalid
-            ? styles.invalid
-            : styles.valid]}
-          placeholder="Enter answer"
-          value={answer}
-          onChangeText={newAnswer => {
-            if (newAnswer.replace(" ", "") === "") {
-              setAnswer(newAnswer)
-              setAnswerInvalid(true)
-            }
-            else {
-              setAnswer(newAnswer)
-              setAnswerInvalid(false)
-            }
-          }}
-          onBlur={onBlur}
-        ></TextInput>
-        <TouchableOpacity onPress={addCard} style={styles.btn}>
-          <Text style={styles.btnText}>Add Card</Text>
-        </TouchableOpacity>
+    this.setState({ question: '', answer: '' });
+    navigation.goBack();
+  };
+  render() {
+    return (
+      <View style={styles.container}>
+        <View>
+          <View style={styles.block}>
+            <Text style={styles.title}>Add a question</Text>
+          </View>
+          <View style={[styles.block]}>
+            <TextInput
+              style={styles.input}
+              value={this.state.question}
+              onChangeText={this.handleQuestionChange}
+              placeholder="Question"
+              autoFocus={true}
+              returnKeyType="next"
+              onSubmitEditing={() => this.answerTextInput.focus()}
+              blurOnSubmit={false}
+            />
+          </View>
+          <View style={[styles.block]}>
+            <TextInput
+              style={styles.input}
+              value={this.state.answer}
+              onChangeText={this.handleAnswerChange}
+              placeholder="Answer"
+              ref={input => {
+                this.answerTextInput = input;
+              }}
+              returnKeyType="done"
+              onSubmitEditing={this.handleSubmit}
+            />
+          </View>
+          <TouchButton
+            btnStyle={{ backgroundColor: green, borderColor: '#fff' }}
+            onPress={this.handleSubmit}
+            disabled={this.state.question === '' || this.state.answer === ''}
+          >
+            Submit
+          </TouchButton>
+        </View>
+        <View style={{ height: '30%' }} />
       </View>
-    </ScrollView>
-  )
+    );
+  }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingBottom: 16,
+    backgroundColor: gray,
+    justifyContent: 'space-around'
+  },
+  block: {
+    marginBottom: 20
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 32
+  },
   input: {
-    borderColor: secondaryLight,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    height: 50,
-    fontSize: 20,
-    paddingLeft: 20,
-    paddingRight: 20
-  },
-  btn: {
     borderWidth: 1,
-    borderColor: standoutLight,
-    backgroundColor: standout,
-    padding: 15,
-    margin: 25,
-    marginLeft: 20,
-    marginRight: 20,
-    borderRadius: 5
-  },
-  btnText: {
-    color: std,
+    borderColor: 'gray',
+    backgroundColor: '#fff',
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 5,
     fontSize: 20,
-    textAlign: "center"
-  },
-  invalid: {
-    borderBottomColor: "tomato"
-  },
-  valid: {
-    borderBottomColor: secondaryLight
+    height: 40
   }
-})
+});
+
+const mapStateToProps = (state, { navigation }) => {
+  const title = navigation.getParam('title', 'undefined');
+
+  return {
+    title
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { addCardToDeck }
+)(AddCard);

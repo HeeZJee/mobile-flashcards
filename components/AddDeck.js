@@ -1,101 +1,105 @@
-import React, { useState } from "react"
-import {
-  ScrollView,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Keyboard,
-  StyleSheet
-} from "react-native"
-import { useDispatch } from "react-redux"
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Text, View, StyleSheet, TextInput } from 'react-native';
+import TouchButton from './TouchButton';
+import { gray, green, white, textGray } from '../utils/colors';
+import { connect } from 'react-redux';
+import { addDeck } from '../actions/index';
+import { saveDeckTitleAS } from '../utils/api';
+import { StackActions, NavigationActions } from 'react-navigation';
 
-import { handleAddDeck } from "../actions"
-import Header from "../components/Header"
-import { secondaryLight, std, standout, standoutLight } from "../utils/colors"
+export class AddDeck extends Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    addDeck: PropTypes.func.isRequired
+  };
+  state = {
+    text: ''
+  };
+  handleChange = text => {
+    this.setState({ text });
+  };
+  handleSubmit = () => {
+    const { addDeck, navigation } = this.props;
+    const { text } = this.state;
 
-export default function AddDeck ({ navigation }) {
-  const [title, setTitle] = useState("")
-  const [invalid, setInvalid] = useState(false)
+    addDeck(text);
+    saveDeckTitleAS(text);
 
-  const handleChange = (_title) => {
-    if (_title !== "") {
-      setInvalid(false)
-    }
-    setTitle(_title)
-  }
+    const resetAction = StackActions.reset({
+      index: 1,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Home' }),
+        NavigationActions.navigate({
+          routeName: 'DeckDetail',
+          params: { title: text }
+        })
+      ]
+    });
+    navigation.dispatch(resetAction);
 
-  const onBlur = () => {
-    Keyboard.dismiss();
-  }
-
-  const dispatch = useDispatch()
-  const addDeck = () => {
-
-    if (title.replace(" ", "") === "") {
-      setInvalid(true)
-      return
-    }
-
-    dispatch(handleAddDeck(title))
-    Keyboard.dismiss();
-    setTitle("")
-    setInvalid(false)
-    toHome()
-  }
-
-  const toHome = () => {
-    navigation.goBack()
-  }
-
-  return (
-    <ScrollView>
-      <View>
-        <Header title="Add Deck"></Header>
-        <TextInput
-          style={[styles.input, invalid ? styles.invalid : styles.valid]}
-          placeholder="Enter deck title"
-          value={title}
-          onChangeText={handleChange}
-          onBlur={() => Keyboard.dismiss}
-        ></TextInput>
-        <TouchableOpacity onPress={addDeck} style={styles.btn}>
-          <Text style={styles.btnText}>Add Deck</Text>
-        </TouchableOpacity>
+    this.setState(() => ({ text: '' }));
+  };
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={{ height: 60 }} />
+        <View style={styles.block}>
+          <Text style={styles.title}>What is the title of your new deck?</Text>
+        </View>
+        <View style={[styles.block]}>
+          <TextInput
+            style={styles.input}
+            value={this.state.text}
+            onChangeText={this.handleChange}
+            placeholder="Deck Name"
+            autoFocus={true}
+            returnKeyType="done"
+            onSubmitEditing={this.handleSubmit}
+          />
+        </View>
+        <TouchButton
+          btnStyle={{ backgroundColor: green, borderColor: white }}
+          onPress={this.handleSubmit}
+          disabled={this.state.text === ''}
+        >
+          Create Deck
+        </TouchButton>
       </View>
-    </ScrollView>
-  )
+    );
+  }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingBottom: 16,
+    backgroundColor: gray
+  },
+  block: {
+    marginBottom: 20
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 32
+  },
   input: {
-    borderColor: secondaryLight,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    height: 50,
-    fontSize: 20,
-    paddingLeft: 20,
-    paddingRight: 20
-  },
-  btn: {
     borderWidth: 1,
-    borderColor: standoutLight,
-    backgroundColor: standout,
-    padding: 15,
-    margin: 25,
-    marginLeft: 20,
-    marginRight: 20,
-    borderRadius: 5
-  },
-  btnText: {
-    color: std,
+    borderColor: textGray,
+    backgroundColor: white,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 5,
     fontSize: 20,
-    textAlign: "center"
-  },
-  invalid: {
-    borderBottomColor: "tomato"
-  },
-  valid: {
-    borderBottomColor: secondaryLight
+    height: 40,
+    marginBottom: 20
   }
-})
+});
+
+export default connect(
+  null,
+  { addDeck }
+)(AddDeck);
