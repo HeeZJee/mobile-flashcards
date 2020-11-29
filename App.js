@@ -1,15 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { getDecksOld } from './utils/api'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+export class App extends Component {
+  state = {
+    data: []
+  }
+
+  componentDidMount() {
+    getDecksOld().then((data) => this.setState({ data }))
+  }
+
+
+  render() {
+    console.log(this.state.data)
+    return (
+      <View style={styles.container}>
+
+        <Text>Open up App.js to start working on your app!</Text>
+        <Text>{JSON.stringify(this.state.data)}</Text>
+        <StatusBar style="auto" />
+      </View>
+    );
+  }
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -19,3 +36,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App
