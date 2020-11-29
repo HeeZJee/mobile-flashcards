@@ -1,52 +1,45 @@
-import omit from "lodash.omit"
 import {
   RECEIVE_DECKS,
   ADD_DECK,
   REMOVE_DECK,
   ADD_CARD,
-  REMOVE_CARD
-} from "../actions"
+  RESET_STORE
+} from '../actions/index';
+import { decks as INITIAL_STATE } from '../utils/_DATA';
 
-export default function decks (state = {}, action) {
+export default function decks(state = {}, action) {
   switch (action.type) {
     case RECEIVE_DECKS:
       return {
         ...state,
         ...action.decks
-      }
+      };
     case ADD_DECK:
       const { title } = action;
       return {
         ...state,
         [title]: {
-          title: title,
+          title,
           questions: []
         }
-      }
+      };
     case REMOVE_DECK:
-      const { title: deckTitle } = action;
-      const newState = omit(state, deckTitle);
-      return newState;
+      const { id } = action;
+      // return ({ [id]: value, ...remainingDecks } = state);
+      const { [id]: value, ...remainingDecks } = state;
+      // console.log(remainingDecks);
+      return remainingDecks;
     case ADD_CARD:
-      const { card } = action;
-      const { question, answer, name } = card;
+      const { deckId, card } = action;
       return {
         ...state,
-        [name]: {
-          ...state[name],
-          questions: state[name].questions.concat([{ question, answer }])
-        }
-      }
-    case REMOVE_CARD:
-      const { deckQuestion } = action;
-      const { question: qst, name: nm } = deckQuestion;
-      return {
-        ...state,
-        [nm]: {
-          ...state[nm],
-          questions: state[nm].questions.filter(q => q.question !== qst)
+        [deckId]: {
+          ...state[deckId],
+          questions: [...state[deckId].questions].concat(card)
         }
       };
+    case RESET_STORE:
+      return INITIAL_STATE;
     default:
       return state;
   }

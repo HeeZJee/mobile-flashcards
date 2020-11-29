@@ -1,58 +1,55 @@
-import React from "react"
-import { View, Text } from "react-native"
-import { createStore } from "redux"
-import { Provider as StoreProvider } from "react-redux"
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
+import React from 'react';
+import PropTypes from 'prop-types';
+import { StyleSheet, View, StatusBar } from 'react-native';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+import { Provider } from 'react-redux';
+import reducer from './reducers/index';
+import Constants from 'expo-constants';
+import AppNavigator from './navigation/AppNavigator';
+import { setLocalNotification } from './utils/helpers';
 
-// Store-related imports
-import middleware from "./middleware"
-import reducer from "./reducers"
+const store = createStore(
+  reducer /* preloadedState, */,
+  applyMiddleware(thunk, logger)
+);
 
-// Navigation-related imports
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from "@react-navigation/stack"
-import Tabs from "./components/Tabs"
-import Deck, { DeckOptions } from "./components/Deck"
-import AddCard, { AddCardOptions } from "./components/AddCard"
-import Quiz, { QuizOptions } from "./components/Quiz"
-
-const store = createStore(reducer, middleware)
-
-const Stack = createStackNavigator()
-
-export default function App() {
+function FlashcardStatusBar({ backgroundColor, ...props }) {
   return (
-    <SafeAreaProvider>
-      <StoreProvider store={store}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <NavigationContainer>
-            <Stack.Navigator
-              initialRouteName="Decks"
-            >
-              <Stack.Screen
-                name="Decks"
-                component={Tabs}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Deck"
-                component={Deck}
-                options={DeckOptions}
-              />
-              <Stack.Screen
-                name="AddCard"
-                component={AddCard}
-                options={AddCardOptions}
-              />
-              <Stack.Screen
-                name="Quiz"
-                component={Quiz}
-                options={QuizOptions}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </SafeAreaView>
-      </StoreProvider>
-    </SafeAreaProvider>
-  )
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+    </View>
+  );
 }
+FlashcardStatusBar.propTypes = {
+  backgroundColor: PropTypes.string.isRequired
+};
+
+export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
+  render() {
+    return (
+      <Provider store={store}>
+        <View style={styles.container}>
+          <FlashcardStatusBar
+            backgroundColor="green"
+            barStyle="light-content"
+          />
+          <AppNavigator />
+        </View>
+      </Provider>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#dde'
+  }
+});
+
+//     "metro-config/src/defaults/blacklist": "0.54.1"
