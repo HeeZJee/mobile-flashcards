@@ -1,40 +1,58 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { getDecksOld } from './utils/api'
+import React from "react"
+import { View, Text } from "react-native"
+import { createStore } from "redux"
+import { Provider as StoreProvider } from "react-redux"
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
 
-export class App extends Component {
-  state = {
-    data: []
-  }
+// Store-related imports
+import middleware from "./middleware"
+import reducer from "./reducers"
 
-  componentDidMount() {
-    getDecksOld().then((data) => this.setState({ data }))
-  }
+// Navigation-related imports
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from "@react-navigation/stack"
+import Tabs from "./components/Tabs"
+import Deck, { DeckOptions } from "./components/Deck"
+import AddCard, { AddCardOptions } from "./components/AddCard"
+import Quiz, { QuizOptions } from "./components/Quiz"
 
+const store = createStore(reducer, middleware)
 
-  render() {
-    console.log(this.state.data)
-    return (
-      <View style={styles.container}>
+const Stack = createStackNavigator()
 
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>{JSON.stringify(this.state.data)}</Text>
-        <StatusBar style="auto" />
-      </View>
-    );
-  }
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <StoreProvider store={store}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName="Decks"
+            >
+              <Stack.Screen
+                name="Decks"
+                component={Tabs}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Deck"
+                component={Deck}
+                options={DeckOptions}
+              />
+              <Stack.Screen
+                name="AddCard"
+                component={AddCard}
+                options={AddCardOptions}
+              />
+              <Stack.Screen
+                name="Quiz"
+                component={Quiz}
+                options={QuizOptions}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaView>
+      </StoreProvider>
+    </SafeAreaProvider>
+  )
 }
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export default App
