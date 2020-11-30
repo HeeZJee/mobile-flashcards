@@ -13,11 +13,6 @@ function formatDeckResults(results) {
 
 export function getDecksOld() {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(formatDeckResults);
-  // return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(result => {
-  //   console.log('raw result', result);
-  //   console.log('parse result', JSON.parse(result));
-  //   return formatDeckResults(result);
-  // });
 }
 
 export async function getDecks() {

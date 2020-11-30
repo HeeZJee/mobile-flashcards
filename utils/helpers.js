@@ -44,8 +44,6 @@ export function setLocalNotification() {
       // if (true) {
       if (data === null) {
         Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
-          // console.log('got in');
-          // console.log('data', data);
           if (status === 'granted') {
             // Notifications.presentLocalNotificationAsync(createNotification());
             Notifications.createChannelAndroidAsync(CHANNEL_ID, createChannel())

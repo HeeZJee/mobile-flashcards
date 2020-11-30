@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, ViewPagerAndroid } from 'react-native';
+import { View, Text, StyleSheet, } from 'react-native';
+import ViewPagerAndroid from '@react-native-community/viewpager'
 import TextButton from './TextButton';
 import TouchButton from './TouchButton';
 import { gray, green, red, textGray, darkGray, white } from '../utils/colors';
@@ -30,7 +31,6 @@ export class Quiz_Android extends Component {
     answered: Array(this.props.deck.questions.length).fill(0)
   };
   handlePageChange = evt => {
-    // console.log('evt.nativeEvent.position', evt.nativeEvent.position);
     this.setState({
       show: screen.QUESTION
     });
@@ -46,13 +46,11 @@ export class Quiz_Android extends Component {
         answered: prevState.answered.map((val, idx) => (page === idx ? 1 : val))
       }),
       () => {
-        // console.log('this.state.answered', this.state.answered);
         const { correct, incorrect, questionCount } = this.state;
 
         if (questionCount === correct + incorrect) {
           this.setState({ show: screen.RESULT });
         } else {
-          // console.log('this.state.page', this.state.page);
           this.viewPager.setPage(page + 1);
           this.setState(prevState => ({
             show: screen.QUESTION
@@ -73,18 +71,20 @@ export class Quiz_Android extends Component {
     const { questions } = this.props.deck;
     const { show } = this.state;
 
-    if (questions.length === 0) {
+    if (questions.length && questions.length === 0) {
       return (
-        <View style={styles.pageStyle}>
-          <View style={styles.block}>
-            <Text style={[styles.count, { textAlign: 'center' }]}>
-              You cannot take a quiz because there are no cards in the deck.
+        <>
+          <View style={styles.pageStyle}>
+            <View style={styles.block}>
+              <Text style={[styles.count, { textAlign: 'center' }]}>
+                You cannot take a quiz because there are no cards in the deck.
             </Text>
-            <Text style={[styles.count, { textAlign: 'center' }]}>
-              Please add some cards and try again.
+              <Text style={[styles.count, { textAlign: 'center' }]}>
+                Please add some cards and try again.
             </Text>
+            </View>
           </View>
-        </View>
+        </>
       );
     }
 
@@ -95,54 +95,56 @@ export class Quiz_Android extends Component {
         percent >= 70 ? styles.resultTextGood : styles.resultTextBad;
 
       return (
-        <View style={styles.pageStyle}>
-          <View style={styles.block}>
-            <Text style={[styles.count, { textAlign: 'center' }]}>
-              Quiz Complete!
+        <>
+          <View style={styles.pageStyle}>
+            <View style={styles.block}>
+              <Text style={[styles.count, { textAlign: 'center' }]}>
+                Quiz Complete!
             </Text>
-            <Text style={resultStyle}>
-              {correct} / {questionCount} correct
+              <Text style={resultStyle}>
+                {correct} / {questionCount} correct
             </Text>
-          </View>
-          <View style={styles.block}>
-            <Text style={[styles.count, { textAlign: 'center' }]}>
-              Percentage correct
+            </View>
+            <View style={styles.block}>
+              <Text style={[styles.count, { textAlign: 'center' }]}>
+                Percentage correct
             </Text>
-            <Text style={resultStyle}>{percent}%</Text>
+              <Text style={resultStyle}>{percent}%</Text>
+            </View>
+            <View>
+              <TouchButton
+                btnStyle={{ backgroundColor: green, borderColor: white }}
+                onPress={this.handleReset}
+              >
+                Restart Quiz
+            </TouchButton>
+              <TouchButton
+                btnStyle={{ backgroundColor: gray, borderColor: textGray }}
+                txtStyle={{ color: textGray }}
+                onPress={() => {
+                  this.handleReset();
+                  this.props.navigation.goBack();
+                }}
+              >
+                Back To Deck
+            </TouchButton>
+              <TouchButton
+                btnStyle={{ backgroundColor: gray, borderColor: textGray }}
+                txtStyle={{ color: textGray }}
+                onPress={() => {
+                  this.handleReset();
+                  this.props.navigation.navigate('Home');
+                }}
+              >
+                Home
+            </TouchButton>
+            </View>
           </View>
-          <View>
-            <TouchButton
-              btnStyle={{ backgroundColor: green, borderColor: white }}
-              onPress={this.handleReset}
-            >
-              Restart Quiz
-            </TouchButton>
-            <TouchButton
-              btnStyle={{ backgroundColor: gray, borderColor: textGray }}
-              txtStyle={{ color: textGray }}
-              onPress={() => {
-                this.handleReset();
-                this.props.navigation.goBack();
-              }}
-            >
-              Back To Deck
-            </TouchButton>
-            <TouchButton
-              btnStyle={{ backgroundColor: gray, borderColor: textGray }}
-              txtStyle={{ color: textGray }}
-              onPress={() => {
-                this.handleReset();
-                this.props.navigation.navigate('Home');
-              }}
-            >
-              Home
-            </TouchButton>
-          </View>
-        </View>
+        </>
       );
     }
 
-    return (
+    return (<>
       <ViewPagerAndroid
         style={styles.container}
         scrollEnabled={true}
@@ -151,7 +153,7 @@ export class Quiz_Android extends Component {
           this.viewPager = viewPager;
         }}
       >
-        {questions.map((question, idx) => (
+        {questions.length && questions.map((question, idx) => (
           <View style={styles.pageStyle} key={idx}>
             <View style={styles.block}>
               <Text style={styles.count}>
@@ -178,13 +180,13 @@ export class Quiz_Android extends Component {
                 Show Answer
               </TextButton>
             ) : (
-              <TextButton
-                txtStyle={{ color: red }}
-                onPress={() => this.setState({ show: screen.QUESTION })}
-              >
-                Show Question
-              </TextButton>
-            )}
+                <TextButton
+                  txtStyle={{ color: red }}
+                  onPress={() => this.setState({ show: screen.QUESTION })}
+                >
+                  Show Question
+                </TextButton>
+              )}
             <View>
               <TouchButton
                 btnStyle={{ backgroundColor: green, borderColor: white }}
@@ -204,6 +206,7 @@ export class Quiz_Android extends Component {
           </View>
         ))}
       </ViewPagerAndroid>
+    </>
     );
   }
 }

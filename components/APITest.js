@@ -17,7 +17,6 @@ export default class APITest extends React.Component {
   }
   handleGetDecks = () => {
     getDecks().then(result => {
-      console.log(JSON.stringify(result));
       this.setState(() => ({
         data: result
       }));
@@ -25,7 +24,6 @@ export default class APITest extends React.Component {
   };
   handleGetDeck = () => {
     getDeck('Redux').then(result => {
-      console.log(JSON.stringify(result));
       this.setState({
         data: result
       });

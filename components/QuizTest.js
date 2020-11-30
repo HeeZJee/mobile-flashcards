@@ -4,8 +4,8 @@ import {
   ScrollView,
   Text,
   StyleSheet,
-  ViewPagerAndroid
 } from 'react-native';
+import { ViewPagerAndroid } from '@react-native-community/viewpager'
 import PropTypes from 'prop-types';
 import TextButton from './TextButton';
 import TouchButton from './TouchButton';
@@ -35,7 +35,6 @@ export class QuizTest extends Component {
     answered: Array(Object.values(this.props.decks)[2].questions.length).fill(0)
   };
   handlePageChange = evt => {
-    console.log('evt.nativeEvent.position', evt.nativeEvent.position);
     this.setState({
       show: screen.QUESTION,
       page: evt.nativeEvent.position
@@ -53,11 +52,8 @@ export class QuizTest extends Component {
         prevState.page === idx ? 1 : val
       )
     }));
-    console.log('this.state.answered', this.state.answered);
 
     const { correct, incorrect } = this.state;
-    // console.log('correct:', correct);
-    // console.log('incorrect:', incorrect);
 
     const questions = Object.values(decks)[2].questions;
     const numQuestions = questions.length - 1;
@@ -80,9 +76,6 @@ export class QuizTest extends Component {
     const { show } = this.state;
     const questions = Object.values(decks)[2].questions;
 
-    // console.log('decks', decks);
-    // console.log('questions', questions);
-    // console.log('questions.length', questions.length);
 
     if (this.state.show === screen.RESULT) {
       const { correct, incorrect } = this.state;
@@ -92,6 +85,7 @@ export class QuizTest extends Component {
         percent >= 70 ? styles.resultTextGood : styles.resultTextBad;
 
       return (
+
         <View style={styles.container}>
           <View style={styles.block}>
             <Text style={styles.count}>Done</Text>
@@ -120,7 +114,6 @@ export class QuizTest extends Component {
             <TouchButton
               btnStyle={{ backgroundColor: gray, borderColor: textGray }}
               txtStyle={{ color: textGray }}
-              // onPress={() => this.props.navigation.goBack()}
               onPress={() => console.log('go back')}
             >
               Back to Deck
@@ -173,13 +166,13 @@ export class QuizTest extends Component {
                 Answer
               </TextButton>
             ) : (
-              <TextButton
-                txtStyle={{ color: red }}
-                onPress={() => this.setState({ show: screen.QUESTION })}
-              >
-                Question
-              </TextButton>
-            )}
+                <TextButton
+                  txtStyle={{ color: red }}
+                  onPress={() => this.setState({ show: screen.QUESTION })}
+                >
+                  Question
+                </TextButton>
+              )}
             <View>
               <TouchButton
                 btnStyle={{ backgroundColor: green, borderColor: white }}

@@ -46,15 +46,12 @@ class Quiz_iOS extends Component {
         answered: prevState.answered.map((val, idx) => (page === idx ? 1 : val))
       }),
       () => {
-        // console.log('this.state.answered', this.state.answered);
         const { correct, incorrect, questionCount } = this.state;
 
         if (questionCount === correct + incorrect) {
           this.setState({ show: screen.RESULT });
         } else {
-          // this.viewPager.setPage(this.state.page + 1);
           this.scrollView.scrollTo({ x: (page + 1) * SCREEN_WIDTH });
-          // console.log('(page + 1) * SCREEN_WIDTH', (page + 1) * SCREEN_WIDTH);
           this.setState(prevState => ({
             show: screen.QUESTION
           }));
@@ -180,13 +177,13 @@ class Quiz_iOS extends Component {
                 Show Answer
               </TextButton>
             ) : (
-              <TextButton
-                txtStyle={{ color: red }}
-                onPress={() => this.setState({ show: screen.QUESTION })}
-              >
-                Show Question
-              </TextButton>
-            )}
+                <TextButton
+                  txtStyle={{ color: red }}
+                  onPress={() => this.setState({ show: screen.QUESTION })}
+                >
+                  Show Question
+                </TextButton>
+              )}
             <View>
               <TouchButton
                 btnStyle={{ backgroundColor: green, borderColor: white }}

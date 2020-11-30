@@ -25,9 +25,7 @@ export default function decks(state = {}, action) {
       };
     case REMOVE_DECK:
       const { id } = action;
-      // return ({ [id]: value, ...remainingDecks } = state);
       const { [id]: value, ...remainingDecks } = state;
-      // console.log(remainingDecks);
       return remainingDecks;
     case ADD_CARD:
       const { deckId, card } = action;
