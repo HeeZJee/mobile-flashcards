@@ -1,8 +1,7 @@
-import React from 'react';
-import { AsyncStorage } from 'react-native';
-import { Notifications } from 'expo';
-
+import AsyncStorage from '@react-native-community/async-storage';
+// import * as Notifications from 'expo-notifications'
 import * as Permissions from 'expo-permissions';
+import { Notifications } from 'expo';
 
 const NOTIFICATION_KEY = 'MobileFlashcard:notifications';
 const CHANNEL_ID = 'DailyReminder';
