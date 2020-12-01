@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, StatusBar } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
@@ -9,9 +9,11 @@ import reducer from './reducers/index';
 import Constants from 'expo-constants';
 import AppNavigator from './navigation/AppNavigator';
 import { setLocalNotification } from './utils/helpers';
+import styled from 'styled-components/native';
+import { green } from './utils/colors'
 
 const store = createStore(
-  reducer /* preloadedState, */,
+  reducer,
   applyMiddleware(thunk, logger)
 );
 
@@ -33,23 +35,20 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <View style={styles.container}>
+        <Wrapper >
           <FlashcardStatusBar
-            backgroundColor="green"
+            backgroundColor={green}
             barStyle="light-content"
           />
-          <AppNavigator />
-        </View>
+          <AppNavigator styled />
+        </Wrapper>
       </Provider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#dde'
-  }
-});
 
-//     "metro-config/src/defaults/blacklist": "0.54.1"
+const Wrapper = styled.View`
+    flex: 1;
+    background-color: #dde;
+`

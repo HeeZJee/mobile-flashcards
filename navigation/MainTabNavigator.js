@@ -11,6 +11,7 @@ import AddCard from '../components/AddCard';
 import Quiz from '../components/Quiz';
 import Settings from '../components/Settings';
 
+
 import { darkGray, white, green, lightGreen } from '../utils/colors';
 
 const isIOS = Platform.OS === 'ios' ? true : false;
@@ -131,7 +132,6 @@ const MainNavigator = createStackNavigator(
         headerStyle: {
           backgroundColor: lightGreen
         }
-        // title: 'Quiz'
       }
     }
   },

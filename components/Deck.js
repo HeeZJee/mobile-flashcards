@@ -1,50 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { white, textGray } from '../utils/colors';
 import { connect } from 'react-redux';
+import styled from 'styled-components/native'
+
 
 const Deck = props => {
   const { deck } = props;
 
   if (deck === undefined) {
-    return <View style={styles.deckContainer} />;
+    return <StyledDeckView />;
   }
   return (
-    <View style={styles.deckContainer}>
+    <StyledDeckView>
       <View>
-        <Text style={styles.deckText}>{deck.title}</Text>
+        <StyledDecText>{deck.title}</StyledDecText>
       </View>
       <View>
-        <Text style={styles.cardText}>{deck.questions.length} cards</Text>
+        <StyledCardText>{deck.questions.length} cards</StyledCardText>
       </View>
-    </View>
+    </StyledDeckView>
   );
 };
 Deck.propTypes = {
   deck: PropTypes.object
 };
 
-const styles = StyleSheet.create({
-  deckContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexBasis: 120,
-    minHeight: 120,
-    borderWidth: 1,
-    borderColor: '#aaa',
-    backgroundColor: white,
-    borderRadius: 5,
-    marginBottom: 10
-  },
-  deckText: {
-    fontSize: 28
-  },
-  cardText: {
-    fontSize: 18,
-    color: textGray
-  }
-});
+const StyledDeckView = styled.View`
+align-items: center;
+justify-content: center;
+flex-basis: 120px;
+min-height: 120px;
+border-width: 1px;
+background-color: ${white};
+border-color: #aaa;
+margin-bottom: 10px;
+`
+
+const StyledDecText = styled.Text`
+font-size: 28px;
+
+`
+const StyledCardText = styled.Text`
+font-size: 18px;
+color: ${textGray}
+`
+
 
 const mapStateToProps = (state, { id }) => {
   const deck = state[id];

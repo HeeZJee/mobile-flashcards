@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import Deck from './Deck';
 import TouchButton from './TouchButton';
 import TextButton from './TextButton';
@@ -8,7 +8,7 @@ import { gray, textGray, green, white, red } from '../utils/colors';
 import { connect } from 'react-redux';
 import { removeDeck } from '../actions/index';
 import { removeDeckAS } from '../utils/api';
-import { NavigationActions } from 'react-navigation';
+import styled from 'styled-components/native';
 
 export class DeckDetail extends Component {
   static propTypes = {
@@ -31,7 +31,7 @@ export class DeckDetail extends Component {
     const { deck } = this.props;
 
     return (
-      <View style={styles.container}>
+      <StyledView >
         <Deck id={deck.title} />
         <View>
           <TouchButton
@@ -59,22 +59,18 @@ export class DeckDetail extends Component {
         >
           Delete Deck
         </TextButton>
-      </View>
+      </StyledView>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-around',
-    paddingTop: 16,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
-    backgroundColor: gray
-  }
-});
+
+const StyledView = styled.View`
+flex: 1;
+padding: 16px;
+background-color: ${gray};
+
+`
 
 const mapStateToProps = (state, { navigation }) => {
   const title = navigation.getParam('title', 'undefined');

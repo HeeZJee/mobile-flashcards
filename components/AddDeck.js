@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, StyleSheet, TextInput } from 'react-native';
+import { View } from 'react-native';
 import TouchButton from './TouchButton';
 import { gray, green, white, textGray } from '../utils/colors';
 import { connect } from 'react-redux';
 import { addDeck } from '../actions/index';
 import { saveDeckTitleAS } from '../utils/api';
 import { StackActions, NavigationActions } from 'react-navigation';
+import styled from 'styled-components/native'
+
 
 export class AddDeck extends Component {
   static propTypes = {
@@ -42,14 +44,13 @@ export class AddDeck extends Component {
   };
   render() {
     return (
-      <View style={styles.container}>
+      <StyledView>
         <View style={{ height: 60 }} />
-        <View style={styles.block}>
-          <Text style={styles.title}>What is the title of your new deck?</Text>
-        </View>
-        <View style={[styles.block]}>
-          <TextInput
-            style={styles.input}
+        <BlockView>
+          <StyledText>What is the title of your new deck?</StyledText>
+        </BlockView>
+        <BlockView>
+          <StyledTextInput
             value={this.state.text}
             onChangeText={this.handleChange}
             placeholder="Deck Name"
@@ -57,7 +58,7 @@ export class AddDeck extends Component {
             returnKeyType="done"
             onSubmitEditing={this.handleSubmit}
           />
-        </View>
+        </BlockView>
         <TouchButton
           btnStyle={{ backgroundColor: green, borderColor: white }}
           onPress={this.handleSubmit}
@@ -65,39 +66,37 @@ export class AddDeck extends Component {
         >
           Create Deck
         </TouchButton>
-      </View>
+      </StyledView>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 16,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
-    backgroundColor: gray
-  },
-  block: {
-    marginBottom: 20
-  },
-  title: {
-    textAlign: 'center',
-    fontSize: 32
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: textGray,
-    backgroundColor: white,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: 5,
-    fontSize: 20,
-    height: 40,
-    marginBottom: 20
-  }
-});
+const StyledView = styled.View`
+flex: 1;
+padding: 16px;
+background-color: ${gray};
+
+`
+
+const BlockView = styled.View`
+margin-bottom: 20px;
+`
+
+const StyledText = styled.Text`
+text-align: center;
+font-size: 32px;
+`
+
+const StyledTextInput = styled.TextInput`
+border: 1px;
+border-color: ${textGray};
+background-color: white;
+padding: 5px 10px;
+border-radius: 5px;
+font-size: 20px;
+margin-bottom: 20px;
+`
+
 
 export default connect(
   null,

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import TextButton from './TextButton';
 import TouchButton from './TouchButton';
 import { gray, green, red, textGray, darkGray, white } from '../utils/colors';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import styled from 'styled-components/native'
+
 
 const screen = {
   QUESTION: 'question',
@@ -73,16 +75,17 @@ class Quiz_iOS extends Component {
 
     if (questions.length === 0) {
       return (
-        <View style={styles.pageStyle}>
-          <View style={styles.block}>
-            <Text style={[styles.count, { textAlign: 'center' }]}>
+        <StyledView>
+          <BlockView>
+            <StyledCount style={{ textAlign: 'center' }}>
               You cannot take a quiz because there are no cards in the deck.
-            </Text>
-            <Text style={[styles.count, { textAlign: 'center' }]}>
+            </StyledCount>
+            <StyledCount style={{ textAlign: 'center' }}>
               Please add some cards and try again.
-            </Text>
-          </View>
-        </View>
+            </StyledCount>
+          </BlockView>
+        </StyledView
+        >
       );
     }
 
@@ -93,21 +96,21 @@ class Quiz_iOS extends Component {
         percent >= 70 ? styles.resultTextGood : styles.resultTextBad;
 
       return (
-        <View style={styles.pageStyle}>
-          <View style={styles.block}>
-            <Text style={[styles.count, { textAlign: 'center' }]}>
+        <StyledView>
+          <BlockView>
+            <StyledCount style={{ textAlign: 'center' }}>
               Quiz Complete!
-            </Text>
+            </StyledCount>
             <Text style={resultStyle}>
               {correct} / {questionCount} correct
             </Text>
-          </View>
-          <View style={styles.block}>
-            <Text style={[styles.count, { textAlign: 'center' }]}>
+          </BlockView>
+          <BlockView>
+            <StyledCount style={{ textAlign: 'center' }}>
               Percentage correct
-            </Text>
+            </StyledCount>
             <Text style={resultStyle}>{percent}%</Text>
-          </View>
+          </BlockView>
           <View>
             <TouchButton
               btnStyle={{ backgroundColor: green, borderColor: white }}
@@ -136,13 +139,12 @@ class Quiz_iOS extends Component {
               Home
             </TouchButton>
           </View>
-        </View>
+        </StyledView>
       );
     }
 
     return (
-      <ScrollView
-        style={styles.container}
+      <StyledScrollView
         pagingEnabled={true}
         horizontal={true}
         onMomentumScrollBegin={this.handleScroll}
@@ -151,24 +153,24 @@ class Quiz_iOS extends Component {
         }}
       >
         {questions.map((question, idx) => (
-          <View style={styles.pageStyle} key={idx}>
-            <View style={styles.block}>
-              <Text style={styles.count}>
+          <StyledView key={idx}>
+            <BlockView>
+              <StyledCount>
                 {idx + 1} / {questions.length}
-              </Text>
-            </View>
-            <View style={[styles.block, styles.questionContainer]}>
-              <Text style={styles.questionText}>
+              </StyledCount>
+            </BlockView>
+            <StlyedQuestionView>
+              <StlyedQuestionText>
                 {show === screen.QUESTION ? 'Question' : 'Answer'}
-              </Text>
-              <View style={styles.questionWrapper}>
-                <Text style={styles.title}>
+              </StlyedQuestionText>
+              <StlyedQuestionWrapper>
+                <StyledTittle>
                   {show === screen.QUESTION
                     ? question.question
                     : question.answer}
-                </Text>
-              </View>
-            </View>
+                </StyledTittle>
+              </StlyedQuestionWrapper>
+            </StlyedQuestionView>
             {show === screen.QUESTION ? (
               <TextButton
                 txtStyle={{ color: red }}
@@ -200,68 +202,61 @@ class Quiz_iOS extends Component {
                 Incorrect
               </TouchButton>
             </View>
-          </View>
+          </StyledView>
         ))}
-      </ScrollView>
+      </StyledScrollView>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  pageStyle: {
-    flex: 1,
-    paddingTop: 16,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
-    backgroundColor: gray,
-    justifyContent: 'space-around',
-    width: SCREEN_WIDTH
-  },
-  block: {
-    marginBottom: 20
-  },
-  count: {
-    fontSize: 24
-  },
-  title: {
-    fontSize: 32,
-    textAlign: 'center'
-  },
-  questionContainer: {
-    borderWidth: 1,
-    borderColor: darkGray,
-    backgroundColor: white,
-    borderRadius: 5,
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 16,
-    paddingRight: 16,
-    flexGrow: 1
-  },
-  questionWrapper: {
-    flex: 1,
-    justifyContent: 'center'
-  },
-  questionText: {
-    textDecorationLine: 'underline',
-    textAlign: 'center',
-    fontSize: 20
-  },
-  resultTextGood: {
-    color: green,
-    fontSize: 46,
-    textAlign: 'center'
-  },
-  resultTextBad: {
-    color: red,
-    fontSize: 46,
-    textAlign: 'center'
-  }
-});
+
+const StyledView = styled.View`
+flex: 1;
+padding: 16px;
+background-color: ${gray};
+justify-content: space-around;
+width: ${SCREEN_WIDTH};
+`
+
+const BlockView = styled.View`
+margin-bottom: 20px;
+display: flex;
+justify-content: center;
+align-items: center;
+`
+
+const StlyedQuestionView = styled.View`
+border-width: 1px;
+border-color: ${darkGray};
+background: ${white};
+border-radius: 5px;
+padding: 20px 16px;
+flex-grow:1;
+margin-bottom:20px;
+`
+const StlyedQuestionWrapper = styled.View`
+flex: 1;
+justify-content: center;
+`
+
+const StlyedQuestionText = styled.Text`
+text-decoration: underline;
+text-align: center;
+font-size: 20px;
+`
+
+const StyledCount = styled.Text`
+font-size: 24px;
+`
+
+const StyledTittle = styled.Text`
+font-size: 32px;
+text-align: center;
+`
+const StyledScrollView = styled.ScrollView`
+flex: 1;
+`
+
 
 const mapStateToProps = (state, { title }) => {
   const deck = state[title];

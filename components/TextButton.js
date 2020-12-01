@@ -1,30 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import styled from 'styled-components/native'
 
 export default function TextButton({ children, onPress, txtStyle = {} }) {
   return (
-    <View style={styles.btnContainer}>
+    <StyledView>
       <TouchableOpacity onPress={onPress}>
-        <Text style={[styles.btnText, txtStyle]}>{children}</Text>
+        <StyledButtonText style={txtStyle}>{children}</StyledButtonText>
       </TouchableOpacity>
-    </View>
+    </StyledView>
   );
 }
 
-const styles = StyleSheet.create({
-  btnContainer: {
-    // flex: 1,
-    // justifyContent: 'flex-end',
-    alignItems: 'center',
-    // borderWidth: 1,
-    // borderColor: 'blue',
-    marginBottom: 20
-  },
-  btnText: {
-    fontSize: 20
-  }
-});
+
+const StyledView = styled.View`
+align-items: center;
+margin-bottom: 20px;
+`
+
+const StyledButtonText = styled.Text`
+font-size: 20px;
+`
 
 TextButton.propTypes = {
   children: PropTypes.string.isRequired,

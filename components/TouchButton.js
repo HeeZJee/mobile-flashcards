@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { textGray, white, darkGray, gray } from '../utils/colors';
+import styled from 'styled-components/native'
+
 
 export default function TouchButton({
   children,
@@ -13,51 +15,51 @@ export default function TouchButton({
   const disabledButton = disabled ? styles.btnDisabled : {};
   const disabledButtonText = disabled ? styles.btnTextDisabled : {};
   return (
-    <View style={styles.btnContainer}>
-      <TouchableOpacity
-        // style={[styles.btn, btnStyle, disabled ? styles.btnDisabled : null]}
-        style={[styles.btn, btnStyle, disabledButton]}
+    <StyledView>
+      <StyledButton
+        style={[btnStyle, disabledButton]}
         onPress={onPress}
         disabled={disabled}
       >
-        <Text
+        <StyledButtonText
           style={[
-            styles.btnText,
             txtStyle,
-            // disabled ? styles.btnTextDisabled : {}
             disabledButtonText
           ]}
         >
           {children}
-        </Text>
-      </TouchableOpacity>
-    </View>
+        </StyledButtonText>
+      </StyledButton>
+    </StyledView>
   );
 }
 
+const StyledView = styled.View`
+align-items: center;
+margin-bottom: 20px;
+`
+
+const StyledButton = styled.TouchableOpacity`
+width: 200px;
+height: 50px;
+background-color: 5px;
+justify-content: center;
+align-items: center;
+border-width: 1px;
+border-color: #999;
+`
+
+const StyledButtonText = styled.Text`
+font-size: 20px;
+font-weight: bold;
+color: ${white};
+`
+
+
 const styles = StyleSheet.create({
-  btnContainer: {
-    alignItems: 'center',
-    marginBottom: 20
-  },
-  btn: {
-    width: 200,
-    height: 50,
-    backgroundColor: 'red',
-    borderRadius: 5,
-    justifyContent: `center`,
-    alignItems: `center`,
-    borderWidth: 1,
-    borderColor: '#999'
-  },
   btnDisabled: {
     backgroundColor: gray,
     borderColor: darkGray
-  },
-  btnText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: white
   },
   btnTextDisabled: {
     color: darkGray

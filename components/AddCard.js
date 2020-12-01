@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, TextInput, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import TouchButton from './TouchButton';
 import { gray, green } from '../utils/colors';
 import { connect } from 'react-redux';
 import { addCardToDeck } from '../actions/index';
 import { addCardToDeckAS } from '../utils/api';
+import styled from 'styled-components/native';
+
+
 
 export class AddCard extends Component {
   static propTypes = {
@@ -38,14 +41,13 @@ export class AddCard extends Component {
   };
   render() {
     return (
-      <View style={styles.container}>
+      <StyledView>
         <View>
-          <View style={styles.block}>
-            <Text style={styles.title}>Add a question</Text>
-          </View>
-          <View style={[styles.block]}>
-            <TextInput
-              style={styles.input}
+          <BlockView>
+            <StyledText>Add a question</StyledText>
+          </BlockView>
+          <BlockView>
+            <StyledInput
               value={this.state.question}
               onChangeText={this.handleQuestionChange}
               placeholder="Question"
@@ -54,10 +56,9 @@ export class AddCard extends Component {
               onSubmitEditing={() => this.answerTextInput.focus()}
               blurOnSubmit={false}
             />
-          </View>
-          <View style={[styles.block]}>
-            <TextInput
-              style={styles.input}
+          </BlockView>
+          <BlockView>
+            <StyledInput
               value={this.state.answer}
               onChangeText={this.handleAnswerChange}
               placeholder="Answer"
@@ -67,7 +68,7 @@ export class AddCard extends Component {
               returnKeyType="done"
               onSubmitEditing={this.handleSubmit}
             />
-          </View>
+          </BlockView>
           <TouchButton
             btnStyle={{ backgroundColor: green, borderColor: '#fff' }}
             onPress={this.handleSubmit}
@@ -77,39 +78,38 @@ export class AddCard extends Component {
           </TouchButton>
         </View>
         <View style={{ height: '30%' }} />
-      </View>
+      </StyledView>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 16,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
-    backgroundColor: gray,
-    justifyContent: 'space-around'
-  },
-  block: {
-    marginBottom: 20
-  },
-  title: {
-    textAlign: 'center',
-    fontSize: 32
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    backgroundColor: '#fff',
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: 5,
-    fontSize: 20,
-    height: 40
-  }
-});
+
+
+const StyledView = styled.View`
+ flex: 1;
+ padding: 16px;
+ background-color: ${gray};
+ justify-content: space-between;
+`
+
+const BlockView = styled.View`
+margin-bottom: 20px;
+`
+
+const StyledText = styled.Text`
+font-size: 32px;
+text-align: center;
+`
+
+const StyledInput = styled.TextInput`
+border-width: 1px;
+border-color: gray;
+background-color: #fff;
+padding: 0 10px;
+border-radius: 5px;
+font-size: 20px;
+height: 40px;
+`
 
 const mapStateToProps = (state, { navigation }) => {
   const title = navigation.getParam('title', 'undefined');

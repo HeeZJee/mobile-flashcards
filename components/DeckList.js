@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  ScrollView,
   View,
-  Text,
-  StyleSheet,
   TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import Deck from './Deck';
 import { gray, green } from '../utils/colors';
 import { handleInitialData } from '../actions/index';
+import styled from 'styled-components/native';
+
 
 export class DeckList extends Component {
   static propTypes = {
@@ -25,8 +24,8 @@ export class DeckList extends Component {
     const { decks, navigation } = this.props;
 
     return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.title}>Mobile Flashcards</Text>
+      <StyledScrollView >
+        <StyledText>Mobile Flashcards</StyledText>
         {Object.values(decks).map(deck => {
           return (
             <TouchableOpacity
@@ -40,27 +39,22 @@ export class DeckList extends Component {
           );
         })}
         <View style={{ marginBottom: 30 }} />
-      </ScrollView>
+      </StyledScrollView>
     );
   }
 }
+const StyledScrollView = styled.ScrollView`
+flex: 1;
+padding: 16px;
+background-color: ${gray};
+`
+const StyledText = styled.Text`
+font-size: 40px;
+text-align: center;
+margin-bottom: 16px;
+color: ${green};
+`
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 16,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
-    backgroundColor: gray
-  },
-  title: {
-    fontSize: 40,
-    textAlign: 'center',
-    marginBottom: 16,
-    color: green
-  }
-});
 
 const mapStateToProps = state => ({ decks: state });
 
