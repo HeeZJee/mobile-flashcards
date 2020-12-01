@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { decks } from './_DATA';
 
 const DECKS_STORAGE_KEY = 'MobileFlashcards:decks';
@@ -7,9 +7,13 @@ export function getData() {
   return decks;
 }
 
+
+
 function formatDeckResults(results) {
   return results === null ? decks : JSON.parse(results);
 }
+
+
 
 export function getDecksOld() {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(formatDeckResults);

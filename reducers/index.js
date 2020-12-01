@@ -14,6 +14,7 @@ export default function decks(state = {}, action) {
         ...state,
         ...action.decks
       };
+
     case ADD_DECK:
       const { title } = action;
       return {
@@ -23,10 +24,12 @@ export default function decks(state = {}, action) {
           questions: []
         }
       };
+
     case REMOVE_DECK:
       const { id } = action;
       const { [id]: value, ...remainingDecks } = state;
       return remainingDecks;
+
     case ADD_CARD:
       const { deckId, card } = action;
       return {
@@ -36,8 +39,10 @@ export default function decks(state = {}, action) {
           questions: [...state[deckId].questions].concat(card)
         }
       };
+
     case RESET_STORE:
       return INITIAL_STATE;
+
     default:
       return state;
   }

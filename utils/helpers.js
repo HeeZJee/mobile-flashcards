@@ -12,6 +12,7 @@ export function clearLocalNotification() {
   );
 }
 
+
 function createNotification() {
   return {
     title: 'Mobile Flashcards Reminder',
@@ -27,6 +28,7 @@ function createNotification() {
   };
 }
 
+
 function createChannel() {
   return {
     name: 'Daily Reminder',
@@ -40,19 +42,15 @@ export function setLocalNotification() {
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
     .then(data => {
-      // if (true) {
       if (data === null) {
         Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
           if (status === 'granted') {
-            // Notifications.presentLocalNotificationAsync(createNotification());
             Notifications.createChannelAndroidAsync(CHANNEL_ID, createChannel())
               .then(val => console.log('channel return:', val))
               .then(() => {
                 Notifications.cancelAllScheduledNotificationsAsync();
 
                 const tomorrow = new Date();
-                // 2 minute from now
-                // tomorrow.setTime(tomorrow.getTime() + 2 * 60000);
 
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 tomorrow.setHours(20);

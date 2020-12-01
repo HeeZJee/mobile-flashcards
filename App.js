@@ -47,7 +47,6 @@ export default class App extends React.Component {
   }
 }
 
-
 const Wrapper = styled.View`
     flex: 1;
     background-color: #dde;
