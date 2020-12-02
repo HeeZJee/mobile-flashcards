@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { white, textGray } from '../utils/colors';
 import { connect } from 'react-redux';
@@ -23,9 +22,7 @@ const Deck = props => {
     </StyledDeckView>
   );
 };
-Deck.propTypes = {
-  deck: PropTypes.object
-};
+
 
 const StyledDeckView = styled.View`
 align-items: center;

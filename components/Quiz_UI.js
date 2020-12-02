@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import TextButton from './TextButton';
 import TouchButton from './TouchButton';
 import { gray, green, red, textGray, darkGray, white } from '../utils/colors';
@@ -21,10 +20,7 @@ const answer = {
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 class Quiz_UI extends Component {
-  static propTypes = {
-    navigation: PropTypes.object.isRequired,
-    deck: PropTypes.object.isRequired
-  };
+
   state = {
     show: screen.QUESTION,
     correct: 0,

@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
-import { textGray, white, darkGray, gray } from '../utils/colors';
+import { StyleSheet } from 'react-native';
+import { white, darkGray, gray } from '../utils/colors';
 import styled from 'styled-components/native'
 
 
@@ -66,10 +65,3 @@ const styles = StyleSheet.create({
   }
 });
 
-TouchButton.propTypes = {
-  children: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
-  btnStyle: PropTypes.object,
-  txtStyle: PropTypes.object,
-  disabled: PropTypes.bool
-};

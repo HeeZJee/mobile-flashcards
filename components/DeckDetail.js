@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import Deck from './Deck';
 import TouchButton from './TouchButton';
@@ -11,11 +10,6 @@ import { removeDeckAS } from '../utils/api';
 import styled from 'styled-components/native';
 
 export class DeckDetail extends Component {
-  static propTypes = {
-    navigation: PropTypes.object.isRequired,
-    removeDeck: PropTypes.func.isRequired,
-    deck: PropTypes.object
-  };
   shouldComponentUpdate(nextProps) {
     return nextProps.deck !== undefined;
   }

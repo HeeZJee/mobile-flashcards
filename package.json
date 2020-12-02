@@ -9,11 +9,10 @@
   "dependencies": {
     "@expo/vector-icons": "^10.0.0",
     "@react-native-community/async-storage": "^1.12.1",
-    "@react-native-community/viewpager": "4.1.6",
+    "@react-native-community/masked-view": "0.1.10",
     "expo": "^39.0.5",
     "expo-notifications": "~0.7.2",
     "expo-permissions": "~9.3.0",
-    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-native-gesture-handler": "~1.7.0",

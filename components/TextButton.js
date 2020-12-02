@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native'
 
@@ -22,9 +21,3 @@ margin-bottom: 20px;
 const StyledButtonText = styled.Text`
 font-size: 20px;
 `
-
-TextButton.propTypes = {
-  children: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
-  txtStyle: PropTypes.object
-};

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import TouchButton from './TouchButton';
 import { gray, green, white, textGray } from '../utils/colors';
@@ -11,10 +10,6 @@ import styled from 'styled-components/native'
 
 
 export class AddDeck extends Component {
-  static propTypes = {
-    navigation: PropTypes.object.isRequired,
-    addDeck: PropTypes.func.isRequired
-  };
   state = {
     text: ''
   };

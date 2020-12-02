@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import TouchButton from './TouchButton';
 import { gray, green } from '../utils/colors';
@@ -11,11 +10,6 @@ import styled from 'styled-components/native';
 
 
 export class AddCard extends Component {
-  static propTypes = {
-    navigation: PropTypes.object.isRequired,
-    title: PropTypes.string.isRequired,
-    addCardToDeck: PropTypes.func.isRequired
-  };
   state = {
     question: '',
     answer: ''

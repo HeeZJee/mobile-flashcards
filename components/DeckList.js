@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   TouchableOpacity
@@ -12,11 +11,6 @@ import styled from 'styled-components/native';
 
 
 export class DeckList extends Component {
-  static propTypes = {
-    navigation: PropTypes.object.isRequired,
-    handleInitialData: PropTypes.func.isRequired,
-    decks: PropTypes.object.isRequired
-  };
   componentDidMount() {
     this.props.handleInitialData();
   }

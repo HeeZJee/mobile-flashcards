@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { View, StatusBar } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -24,9 +23,7 @@ function FlashcardStatusBar({ backgroundColor, ...props }) {
     </View>
   );
 }
-FlashcardStatusBar.propTypes = {
-  backgroundColor: PropTypes.string.isRequired
-};
+
 
 export default class App extends React.Component {
   componentDidMount() {
