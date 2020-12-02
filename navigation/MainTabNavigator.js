@@ -9,7 +9,7 @@ import AddDeck from '../components/AddDeck';
 import DeckDetail from '../components/DeckDetail';
 import AddCard from '../components/AddCard';
 import Quiz from '../components/Quiz';
-import Settings from '../components/Settings';
+// import Settings from '../components/Settings';
 
 
 import { darkGray, white, green, lightGreen } from '../utils/colors';
@@ -39,15 +39,15 @@ const routeConfigs = {
       )
     }
   },
-  Settings: {
-    screen: Settings,
-    navigationOptions: {
-      tabBarLabel: 'Settings',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon.FontAwesome name="sliders" size={30} color={tintColor} />
-      )
-    }
-  }
+  // Settings: {
+  //   screen: Settings,
+  //   navigationOptions: {
+  //     tabBarLabel: 'Settings',
+  //     tabBarIcon: ({ tintColor }) => (
+  //       <Icon.FontAwesome name="sliders" size={30} color={tintColor} />
+  //     )
+  //   }
+  // }
 };
 
 routeConfigs.Decks.navigationOptions.tabBarIcon.propTypes = {
@@ -56,13 +56,13 @@ routeConfigs.Decks.navigationOptions.tabBarIcon.propTypes = {
 routeConfigs.AddDeck.navigationOptions.tabBarIcon.propTypes = {
   tintColor: PropTypes.string.isRequired
 };
-routeConfigs.Settings.navigationOptions.tabBarIcon.propTypes = {
-  tintColor: PropTypes.string.isRequired
-};
+// routeConfigs.Settings.navigationOptions.tabBarIcon.propTypes = {
+//   tintColor: PropTypes.string.isRequired
+// };
 
 const tabNavigatorConfig = {
   navigationOptions: {
-    header: null
+    headerShown: false
   },
   defaultNavigationOptions: {
     bounces: true
@@ -129,13 +129,13 @@ const MainNavigator = createStackNavigator(
       screen: Quiz,
       navigationOptions: {
         headerTintColor: green,
+        headerTitleAlign: 'center',
         headerStyle: {
           backgroundColor: lightGreen
         }
       }
     }
-  },
-  { headerLayoutPreset: 'center' }
+  }
 );
 
 export default MainNavigator;

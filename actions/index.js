@@ -35,11 +35,12 @@ export function addCardToDeck(deckId, card) {
   };
 }
 
-export function resetStore() {
-  return {
-    type: RESET_STORE
-  };
-}
+// export function resetStore() {
+//   return {
+//     type: RESET_STORE
+//   };
+// }
+
 export function handleInitialData() {
   return dispatch => {
     return getDecks().then(decks => {

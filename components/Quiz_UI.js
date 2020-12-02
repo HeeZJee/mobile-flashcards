@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, } from 'react-native';
-import ViewPagerAndroid from '@react-native-community/viewpager'
+import { View, Text, Dimensions } from 'react-native';
 import TextButton from './TextButton';
 import TouchButton from './TouchButton';
 import { gray, green, red, textGray, darkGray, white } from '../utils/colors';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native'
+
 
 const screen = {
   QUESTION: 'question',
@@ -18,8 +18,9 @@ const answer = {
   CORRECT: 'correct',
   INCORRECT: 'incorrect'
 };
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export class Quiz_Android extends Component {
+class Quiz_UI extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     deck: PropTypes.object.isRequired
@@ -31,7 +32,7 @@ export class Quiz_Android extends Component {
     questionCount: this.props.deck.questions.length,
     answered: Array(this.props.deck.questions.length).fill(0)
   };
-  handlePageChange = evt => {
+  handleScroll = () => {
     this.setState({
       show: screen.QUESTION
     });
@@ -52,7 +53,7 @@ export class Quiz_Android extends Component {
         if (questionCount === correct + incorrect) {
           this.setState({ show: screen.RESULT });
         } else {
-          this.viewPager.setPage(page + 1);
+          this.scrollView.scrollTo({ x: (page + 1) * SCREEN_WIDTH });
           this.setState(prevState => ({
             show: screen.QUESTION
           }));
@@ -72,20 +73,19 @@ export class Quiz_Android extends Component {
     const { questions } = this.props.deck;
     const { show } = this.state;
 
-    if (questions.length && questions.length === 0) {
+    if (questions.length === 0) {
       return (
-        <>
-          <StyledView>
-            <BlockView>
-              <StyledCount style={{ textAlign: 'center' }}>
-                You cannot take a quiz because there are no cards in the deck.
+        <StyledView>
+          <BlockView>
+            <StyledCount style={{ textAlign: 'center' }}>
+              You cannot take a quiz because there are no cards in the deck.
             </StyledCount>
-              <StyledCount style={{ textAlign: 'center' }}>
-                Please add some cards and try again.
+            <StyledCount style={{ textAlign: 'center' }}>
+              Please add some cards and try again.
             </StyledCount>
-            </BlockView>
-          </StyledView>
-        </>
+          </BlockView>
+        </StyledView
+        >
       );
     }
 
@@ -95,80 +95,75 @@ export class Quiz_Android extends Component {
       const resultStyle =
         percent >= 70 ? green : red;
 
-
-
-
       return (
-        <>
-          <StyledView>
-            <BlockView>
-              <StyledCount color={resultStyle}>
-                Quiz Complete!
+        <StyledView>
+          <BlockView>
+            <StyledCount style={{ textAlign: 'center' }}>
+              Quiz Complete!
             </StyledCount>
-              <Text >
-                {correct} / {questionCount} correct
-            </Text>
-            </BlockView>
-            <BlockView>
-              <ResultText color={resultStyle}>
-                Percentage correct
+            <ResultText color={resultStyle}>
+              {correct} / {questionCount} correct
             </ResultText>
-              <ResultText color={resultStyle}>{percent}%</ResultText>
-            </BlockView>
-            <View>
-              <TouchButton
-                btnStyle={{ backgroundColor: green, borderColor: white }}
-                onPress={this.handleReset}
-              >
-                Restart Quiz
+          </BlockView>
+          <BlockView>
+            <ResultText color={resultStyle}>
+              Percentage correct
+            </ResultText>
+            <ResultText color={resultStyle}>{percent}%</ResultText>
+          </BlockView>
+          <View>
+            <TouchButton
+              btnStyle={{ backgroundColor: green, borderColor: white }}
+              onPress={this.handleReset}
+            >
+              Restart Quiz
             </TouchButton>
-              <TouchButton
-                btnStyle={{ backgroundColor: gray, borderColor: textGray }}
-                txtStyle={{ color: textGray }}
-                onPress={() => {
-                  this.handleReset();
-                  this.props.navigation.goBack();
-                }}
-              >
-                Back To Deck
+            <TouchButton
+              btnStyle={{ backgroundColor: gray, borderColor: textGray }}
+              txtStyle={{ color: textGray }}
+              onPress={() => {
+                this.handleReset();
+                this.props.navigation.goBack();
+              }}
+            >
+              Back To Deck
             </TouchButton>
-              <TouchButton
-                btnStyle={{ backgroundColor: gray, borderColor: textGray }}
-                txtStyle={{ color: textGray }}
-                onPress={() => {
-                  this.handleReset();
-                  this.props.navigation.navigate('Home');
-                }}
-              >
-                Home
+            <TouchButton
+              btnStyle={{ backgroundColor: gray, borderColor: textGray }}
+              txtStyle={{ color: textGray }}
+              onPress={() => {
+                this.handleReset();
+                this.props.navigation.navigate('Home');
+              }}
+            >
+              Home
             </TouchButton>
-            </View>
-          </StyledView>
-        </>
+          </View>
+        </StyledView>
       );
     }
 
-    return (<>
-      <ViewPagerAndroid
-        style={{ flex: 1 }}
-        scrollEnabled={true}
-        onPageSelected={this.handlePageChange}
-        ref={viewPager => {
-          this.viewPager = viewPager;
+    return (
+      <StyledScrollView
+        pagingEnabled={true}
+        horizontal={true}
+        onMomentumScrollBegin={this.handleScroll}
+        ref={scrollView => {
+          this.scrollView = scrollView;
         }}
       >
-        {questions.length && questions.map((question, idx) => (
+        {questions.map((question, idx) => (
           <StyledView key={idx}>
             <BlockView>
-              <StyledCount >
+              <StyledCount>
                 {idx + 1} / {questions.length}
               </StyledCount>
             </BlockView>
-            <StlyedQuestionView >
+            <StlyedQuestionView>
               <StlyedQuestionText>
                 {show === screen.QUESTION ? 'Question' : 'Answer'}
               </StlyedQuestionText>
-              <StlyedQuestionWrapper >
+              <StlyedQuestionWrapper>
                 <StyledTittle>
                   {show === screen.QUESTION
                     ? question.question
@@ -209,17 +204,18 @@ export class Quiz_Android extends Component {
             </View>
           </StyledView>
         ))}
-      </ViewPagerAndroid>
-    </>
+      </StyledScrollView>
     );
   }
 }
+
 
 const StyledView = styled.View`
 flex: 1;
 padding: 16px;
 background-color: ${gray};
 justify-content: space-around;
+width: ${SCREEN_WIDTH}px;
 `
 
 const BlockView = styled.View`
@@ -238,7 +234,6 @@ padding: 20px 16px;
 flex-grow:1;
 margin-bottom:20px;
 `
-
 const StlyedQuestionWrapper = styled.View`
 flex: 1;
 justify-content: center;
@@ -258,13 +253,15 @@ const StyledTittle = styled.Text`
 font-size: 32px;
 text-align: center;
 `
+const StyledScrollView = styled.ScrollView`
+flex: 1;
+`
 
 const ResultText = styled.Text`
 color: ${props => props.color};
 font-size: 46px;
 text-align: center;
 `
-
 
 const mapStateToProps = (state, { title }) => {
   const deck = state[title];
@@ -274,4 +271,4 @@ const mapStateToProps = (state, { title }) => {
   };
 };
 
-export default withNavigation(connect(mapStateToProps)(Quiz_Android));
+export default withNavigation(connect(mapStateToProps)(Quiz_UI));
