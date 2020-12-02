@@ -6,7 +6,7 @@ Mobile Flashcards is a React Native app for both Android and iOS devices that yo
 It is created using modern technologies like React Native, Redux,  Expo, & React Navigation.
 
 
-- Code Notes: [Step-by-step walk-though of how this project was built](https://github.com/HeeZJee/mobile-flashcards/)
+- GitHub Repo: (https://github.com/HeeZJee/mobile-flashcards/)
 
 ## Installation
 
