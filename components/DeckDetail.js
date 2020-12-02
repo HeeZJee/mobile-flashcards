@@ -2,25 +2,14 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Deck from './Deck';
 import TouchButton from './TouchButton';
-import TextButton from './TextButton';
-import { gray, textGray, green, white, red } from '../utils/colors';
+import { gray, textGray, green, white } from '../utils/colors';
 import { connect } from 'react-redux';
-import { removeDeck } from '../actions/index';
-import { removeDeckAS } from '../utils/api';
 import styled from 'styled-components/native';
 
 export class DeckDetail extends Component {
   shouldComponentUpdate(nextProps) {
     return nextProps.deck !== undefined;
   }
-  handleDelete = id => {
-    const { removeDeck, navigation } = this.props;
-
-    removeDeck(id);
-    removeDeckAS(id);
-
-    navigation.goBack();
-  };
   render() {
     const { deck } = this.props;
 
@@ -47,12 +36,6 @@ export class DeckDetail extends Component {
             Start Quiz
           </TouchButton>
         </View>
-        <TextButton
-          txtStyle={{ color: red }}
-          onPress={() => this.handleDelete(deck.title)}
-        >
-          Delete Deck
-        </TextButton>
       </StyledView>
     );
   }
@@ -76,6 +59,5 @@ const mapStateToProps = (state, { navigation }) => {
 };
 
 export default connect(
-  mapStateToProps,
-  { removeDeck }
+  mapStateToProps
 )(DeckDetail);

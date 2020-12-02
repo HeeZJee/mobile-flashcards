@@ -1,22 +1,22 @@
 import {
   RECEIVE_DECKS,
   ADD_DECK,
-  REMOVE_DECK,
   ADD_CARD,
-  RESET_STORE
 } from '../actions/index';
 import { decks as INITIAL_STATE } from '../utils/_DATA';
 
 export default function decks(state = {}, action) {
   switch (action.type) {
     case RECEIVE_DECKS:
+      const { decks } = action
       return {
         ...state,
-        ...action.decks
+        ...decks
       };
 
     case ADD_DECK:
       const { title } = action;
+      console.log('action--', action)
       return {
         ...state,
         [title]: {
@@ -24,11 +24,6 @@ export default function decks(state = {}, action) {
           questions: []
         }
       };
-
-    case REMOVE_DECK:
-      const { id } = action;
-      const { [id]: value, ...remainingDecks } = state;
-      return remainingDecks;
 
     case ADD_CARD:
       const { deckId, question, answer } = action;
@@ -39,10 +34,6 @@ export default function decks(state = {}, action) {
           questions: [...state[deckId].questions, { question, answer }]
         }
       };
-
-    case RESET_STORE:
-      return INITIAL_STATE;
-
     default:
       return state;
   }
