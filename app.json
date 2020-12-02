@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Mobile Flashcards",
-    "description": "This app allows you to create flashcard decks to test yourself with.",
+    "description": "This app allows you to create flashcard decks to test yourself.",
     "slug": "mobile-flashcards",
     "privacy": "public",
     "platforms": [
@@ -15,9 +15,6 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },
-    "notification": {
-      "icon": "./assets/icon-48.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
