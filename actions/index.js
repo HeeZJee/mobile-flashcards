@@ -27,19 +27,15 @@ export function removeDeck(id) {
   };
 }
 
-export function addCardToDeck(deckId, card) {
+export function addCardToDeck(deckId, question, answer) {
   return {
     type: ADD_CARD,
     deckId,
-    card
+    question,
+    answer,
   };
 }
 
-// export function resetStore() {
-//   return {
-//     type: RESET_STORE
-//   };
-// }
 
 export function handleInitialData() {
   return dispatch => {

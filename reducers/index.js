@@ -31,12 +31,12 @@ export default function decks(state = {}, action) {
       return remainingDecks;
 
     case ADD_CARD:
-      const { deckId, card } = action;
+      const { deckId, question, answer } = action;
       return {
         ...state,
         [deckId]: {
           ...state[deckId],
-          questions: [...state[deckId].questions].concat(card)
+          questions: [...state[deckId].questions, { question, answer }]
         }
       };
 

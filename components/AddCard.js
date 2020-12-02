@@ -32,9 +32,11 @@ export class AddCard extends Component {
       question: this.state.question,
       answer: this.state.answer
     };
+    const question = this.state.question
+    const answer = this.state.answer
 
-    addCardToDeck(title, card);
-    addCardToDeckAS(title, card);
+    addCardToDeck(title, question, answer);
+    addCardToDeckAS(title, question, answer);
 
     this.setState({ question: '', answer: '' });
     navigation.goBack();
