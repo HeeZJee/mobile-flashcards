@@ -7,9 +7,9 @@ const NOTIFICATION_KEY = 'MobileFlashcard:notifications';
 const CHANNEL_ID = 'DailyReminder';
 
 export function clearLocalNotification() {
-  return AsyncStorage.removeItem(NOTIFICATION_KEY).then(
-    Notifications.cancelAllScheduledNotificationsAsync
-  );
+  return AsyncStorage.removeItem(NOTIFICATION_KEY)
+    .then(Notifications.cancelAllScheduledNotificationsAsync)
+    .catch(err => console.error(err));
 }
 
 
@@ -66,9 +66,7 @@ export function setLocalNotification() {
 
                 AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
               })
-              .catch(err => {
-                console.log('err', err);
-              });
+              .catch(err => console.error(err));
           }
         });
       }

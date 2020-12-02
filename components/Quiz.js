@@ -11,7 +11,9 @@ export class Quiz extends Component {
     };
   };
   componentDidMount() {
-    clearLocalNotification().then(setLocalNotification);
+    clearLocalNotification()
+      .then(setLocalNotification)
+      .catch(err => console.error(err));
   }
   render() {
     const { navigation } = this.props;

@@ -24,4 +24,5 @@ export const addCardToDeck = (deckId, question, answer) => ({
 
 export const handleInitialData = () =>
   dispatch => getDecks()
-    .then(decks => dispatch(receiveDecks(decks)));
+    .then(decks => dispatch(receiveDecks(decks)))
+    .catch(err => console.error(err));

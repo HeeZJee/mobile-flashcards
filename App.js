@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StatusBar } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
 import { Provider } from 'react-redux';
 import reducer from './reducers/index';
 import Constants from 'expo-constants';
@@ -13,7 +12,7 @@ import { green } from './utils/colors'
 
 const store = createStore(
   reducer,
-  applyMiddleware(thunk, logger)
+  applyMiddleware(thunk)
 );
 
 function FlashcardStatusBar({ backgroundColor, ...props }) {
