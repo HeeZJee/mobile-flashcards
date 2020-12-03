@@ -39,17 +39,18 @@ margin-bottom: 20px;
 `
 
 const StyledButton = styled.TouchableOpacity`
-width: 200px;
+width: 150px;
 height: 50px;
 background-color: 5px;
 justify-content: center;
 align-items: center;
 border-width: 1px;
 border-color: #999;
+border-radius: 50px;
 `
 
 const StyledButtonText = styled.Text`
-font-size: 20px;
+font-size: 18px;
 font-weight: bold;
 color: ${white};
 `

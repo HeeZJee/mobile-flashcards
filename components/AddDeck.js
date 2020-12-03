@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import TouchButton from './TouchButton';
-import { gray, green, white, textGray } from '../utils/colors';
+import { gray, blue, white, textGray } from '../utils/colors';
 import { connect } from 'react-redux';
 import { addDeck } from '../actions/index';
 import { saveDeckTitleAS } from '../utils/api';
@@ -55,7 +55,7 @@ export class AddDeck extends Component {
           />
         </BlockView>
         <TouchButton
-          btnStyle={{ backgroundColor: green, borderColor: white }}
+          btnStyle={{ backgroundColor: blue }}
           onPress={this.handleSubmit}
           disabled={this.state.text === ''}
         >

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Deck from './Deck';
-import { gray, green } from '../utils/colors';
+import { gray, blue } from '../utils/colors';
 import { handleInitialData } from '../actions/index';
 import styled from 'styled-components/native';
 
@@ -46,7 +46,7 @@ const StyledText = styled.Text`
 font-size: 40px;
 text-align: center;
 margin-bottom: 16px;
-color: ${green};
+color: ${blue};
 `
 
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import TextButton from './TextButton';
 import TouchButton from './TouchButton';
-import { gray, green, red, textGray, darkGray, white } from '../utils/colors';
+import { gray, green, red, textGray, darkGray, white, blue } from '../utils/colors';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native'
@@ -102,27 +102,15 @@ class Quiz_UI extends Component {
             </ResultText>
           </BlockView>
           <BlockView>
-            <ResultText color={resultStyle}>
-              Percentage correct
-            </ResultText>
+            <ResultText color={resultStyle}>Percentage correct</ResultText>
             <ResultText color={resultStyle}>{percent}%</ResultText>
           </BlockView>
           <View>
             <TouchButton
-              btnStyle={{ backgroundColor: green, borderColor: white }}
+              btnStyle={{ backgroundColor: blue }}
               onPress={this.handleReset}
             >
               Restart Quiz
-            </TouchButton>
-            <TouchButton
-              btnStyle={{ backgroundColor: gray, borderColor: textGray }}
-              txtStyle={{ color: textGray }}
-              onPress={() => {
-                this.handleReset();
-                this.props.navigation.goBack();
-              }}
-            >
-              Back To Deck
             </TouchButton>
             <TouchButton
               btnStyle={{ backgroundColor: gray, borderColor: textGray }}
@@ -182,22 +170,22 @@ class Quiz_UI extends Component {
                   Show Question
                 </TextButton>
               )}
-            <View>
+            <ButtonWrapperView>
               <TouchButton
-                btnStyle={{ backgroundColor: green, borderColor: white }}
+                btnStyle={{ backgroundColor: green }}
                 onPress={() => this.handleAnswer(answer.CORRECT, idx)}
                 disabled={this.state.answered[idx] === 1}
               >
                 Correct
               </TouchButton>
               <TouchButton
-                btnStyle={{ backgroundColor: red, borderColor: white }}
+                btnStyle={{ backgroundColor: red }}
                 onPress={() => this.handleAnswer(answer.INCORRECT, idx)}
                 disabled={this.state.answered[idx] === 1}
               >
                 Incorrect
               </TouchButton>
-            </View>
+            </ButtonWrapperView>
           </StyledView>
         ))}
       </StyledScrollView>
@@ -257,6 +245,12 @@ const ResultText = styled.Text`
 color: ${props => props.color};
 font-size: 46px;
 text-align: center;
+`
+const ButtonWrapperView = styled.View`
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+align-items: center;
 `
 
 const mapStateToProps = (state, { title }) => {

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import * as Icon from '@expo/vector-icons';
+import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import DeckList from '../components/DeckList';
@@ -10,31 +9,22 @@ import AddCard from '../components/AddCard';
 import Quiz from '../components/Quiz';
 
 
-import { darkGray, white, green, lightGreen } from '../utils/colors';
+import { white, blue, lightBlue } from '../utils/colors';
 
-const isIOS = Platform.OS === 'ios' ? true : false;
 
 const routeConfigs = {
   Decks: {
     screen: DeckList,
     navigationOptions: {
       tabBarLabel: 'Decks',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon.Ionicons
-          name={isIOS ? 'ios-bookmarks' : 'md-bookmarks'}
-          size={30}
-          color={tintColor}
-        />
-      )
+      tabBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='cards-outline' size={30} color={tintColor} />
     }
   },
   AddDeck: {
     screen: AddDeck,
     navigationOptions: {
       tabBarLabel: 'Add Deck',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon.FontAwesome name="plus-square" size={30} color={tintColor} />
-      )
+      tabBarIcon: ({ tintColor }) => <Feather name="plus-circle" size={30} color={tintColor} />
     }
   },
 
@@ -49,23 +39,20 @@ const tabNavigatorConfig = {
     bounces: true
   },
   tabBarOptions: {
-    activeTintColor: green,
+    activeTintColor: blue,
     style: {
       height: 60,
       backgroundColor: white,
-      shadowColor: 'rgba(0,0,0, 0.24)',
+      shadowColor: 'rgba(0,0,0,0.24)',
       shadowOffset: {
         width: 0,
         height: 3
       },
       shadowRadius: 6,
       shadowOpacity: 1,
-      borderTopWidth: 1,
-      borderTopColor: darkGray
     },
     labelStyle: {
-      fontSize: 12,
-      fontWeight: 'bold'
+      fontSize: 14,
     },
     tabStyle: {
       marginTop: 5,
@@ -85,9 +72,9 @@ const MainNavigator = createStackNavigator(
     DeckDetail: {
       screen: DeckDetail,
       navigationOptions: {
-        headerTintColor: green,
+        headerTintColor: blue,
         headerStyle: {
-          backgroundColor: lightGreen
+          backgroundColor: lightBlue,
         },
         title: 'Deck Details'
       }
@@ -95,9 +82,9 @@ const MainNavigator = createStackNavigator(
     AddCard: {
       screen: AddCard,
       navigationOptions: {
-        headerTintColor: green,
+        headerTintColor: blue,
         headerStyle: {
-          backgroundColor: lightGreen
+          backgroundColor: lightBlue
         },
         headerTitleStyle: {
           justifyContent: 'center',
@@ -109,10 +96,10 @@ const MainNavigator = createStackNavigator(
     Quiz: {
       screen: Quiz,
       navigationOptions: {
-        headerTintColor: green,
+        headerTintColor: blue,
         headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: lightGreen
+          backgroundColor: lightBlue,
         }
       }
     }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Deck from './Deck';
 import TouchButton from './TouchButton';
-import { gray, textGray, green, white } from '../utils/colors';
+import { gray, textGray, blue, white } from '../utils/colors';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
@@ -16,7 +16,7 @@ export class DeckDetail extends Component {
     return (
       <StyledView >
         <Deck id={deck.title} />
-        <View>
+        <ButtonWrapperView>
           <TouchButton
             btnStyle={{ backgroundColor: white, borderColor: textGray }}
             txtStyle={{ color: textGray }}
@@ -27,7 +27,7 @@ export class DeckDetail extends Component {
             Add Card
           </TouchButton>
           <TouchButton
-            btnStyle={{ backgroundColor: green, borderColor: white }}
+            btnStyle={{ backgroundColor: blue, }}
             txtStyle={{ color: white }}
             onPress={() =>
               this.props.navigation.navigate('Quiz', { title: deck.title })
@@ -35,7 +35,7 @@ export class DeckDetail extends Component {
           >
             Start Quiz
           </TouchButton>
-        </View>
+        </ButtonWrapperView>
       </StyledView>
     );
   }
@@ -46,8 +46,15 @@ const StyledView = styled.View`
 flex: 1;
 padding: 16px;
 background-color: ${gray};
-
+justify-content: space-between;
 `
+const ButtonWrapperView = styled.View`
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+`
+
+
 
 const mapStateToProps = (state, { navigation }) => {
   const title = navigation.getParam('title', 'undefined');
