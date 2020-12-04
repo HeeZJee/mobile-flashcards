@@ -3,6 +3,7 @@
     "name": "Mobile Flashcards",
     "description": "This app allows you to create flashcard decks to test yourself.",
     "slug": "mobile-flashcards",
+    "sdkVersion": "36.0.0",
     "privacy": "public",
     "platforms": [
       "ios",
@@ -23,12 +24,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "io.heezjee.mobileflashcards"
-    },
-    "android": {
-      "package": "io.heezjee.mobileflashcards"
-    },
+      "supportsTablet": true    },
     "githubUrl": "https://github.com/HeeZJee/mobile-flashcards"
   }
 }
