@@ -16,15 +16,14 @@ const routeConfigs = {
   Decks: {
     screen: DeckList,
     navigationOptions: {
-      tabBarLabel: 'Decks',
-      tabBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='cards-outline' size={30} color={tintColor} />
-    }
+      tabBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='cards-outline' size={35} color={tintColor} />
+    },
+
   },
   AddDeck: {
     screen: AddDeck,
     navigationOptions: {
-      tabBarLabel: 'Add Deck',
-      tabBarIcon: ({ tintColor }) => <Feather name="plus-circle" size={30} color={tintColor} />
+      tabBarIcon: ({ tintColor }) => <Feather name="plus-circle" size={35} color={tintColor} />
     }
   },
 
@@ -39,10 +38,10 @@ const tabNavigatorConfig = {
     bounces: true
   },
   tabBarOptions: {
+    showLabel: false,
     activeTintColor: blue,
     style: {
       height: 60,
-      backgroundColor: white,
       shadowColor: 'rgba(0,0,0,0.24)',
       shadowOffset: {
         width: 0,
@@ -50,19 +49,13 @@ const tabNavigatorConfig = {
       },
       shadowRadius: 6,
       shadowOpacity: 1,
-    },
-    labelStyle: {
-      fontSize: 14,
-    },
-    tabStyle: {
-      marginTop: 5,
-      marginBottom: 3
+      backgroundColor: white,
     },
     showIcon: true
-  }
+  },
 };
 
-const Tabs = createBottomTabNavigator(routeConfigs, tabNavigatorConfig);
+const Tabs = createBottomTabNavigator(routeConfigs, tabNavigatorConfig,);
 
 const MainNavigator = createStackNavigator(
   {
