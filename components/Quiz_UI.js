@@ -97,12 +97,10 @@ class Quiz_UI extends Component {
             <StyledCount style={{ textAlign: 'center' }}>
               Quiz Complete!
             </StyledCount>
-            <ResultText color={resultStyle}>
-              {correct} / {questionCount} correct
-            </ResultText>
+
           </BlockView>
           <BlockView>
-            <ResultText color={resultStyle}>Percentage correct</ResultText>
+            <ResultText color={resultStyle}>Your percentage</ResultText>
             <ResultText color={resultStyle}>{percent}%</ResultText>
           </BlockView>
           <View>
@@ -154,22 +152,23 @@ class Quiz_UI extends Component {
                     : question.answer}
                 </StyledTittle>
               </StlyedQuestionWrapper>
+              {show === screen.QUESTION
+                ? (
+                  <TextButton
+                    txtStyle={{ color: red }}
+                    onPress={() => this.setState({ show: screen.ANSWER })}
+                  >
+                    Show Answer
+                  </TextButton>
+                ) : (
+                  <TextButton
+                    txtStyle={{ color: red }}
+                    onPress={() => this.setState({ show: screen.QUESTION })}
+                  >
+                    Show Question
+                  </TextButton>
+                )}
             </StlyedQuestionView>
-            {show === screen.QUESTION ? (
-              <TextButton
-                txtStyle={{ color: red }}
-                onPress={() => this.setState({ show: screen.ANSWER })}
-              >
-                Show Answer
-              </TextButton>
-            ) : (
-                <TextButton
-                  txtStyle={{ color: red }}
-                  onPress={() => this.setState({ show: screen.QUESTION })}
-                >
-                  Show Question
-                </TextButton>
-              )}
             <ButtonWrapperView>
               <TouchButton
                 btnStyle={{ backgroundColor: green }}
