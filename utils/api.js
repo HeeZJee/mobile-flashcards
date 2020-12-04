@@ -3,21 +3,11 @@ import { decks } from './_DATA';
 
 const DECKS_STORAGE_KEY = 'MobileFlashcards:decks';
 
-export function getData() {
-  return decks;
-}
-
-
 
 function formatDeckResults(results) {
   return results === null ? decks : JSON.parse(results);
 }
 
-
-
-export function getDecksOld() {
-  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(formatDeckResults);
-}
 
 export async function getDecks() {
   try {
@@ -26,14 +16,14 @@ export async function getDecks() {
     if (storeResults === null) {
       AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
     }
-
-    return storeResults === null ? decks : JSON.parse(storeResults);
+    return formatDeckResults(storeResults)
   } catch (err) {
     console.log(err);
   }
 }
 
-export async function getDeck(id) {
+
+export async function getCard(id) {
   try {
     const storeResults = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
 
@@ -42,6 +32,7 @@ export async function getDeck(id) {
     console.log(err);
   }
 }
+
 
 export async function saveDeckTitleAS(title) {
   try {
@@ -60,13 +51,13 @@ export async function saveDeckTitleAS(title) {
 }
 
 
-export async function addCardToDeckAS(title, question, answer) {
+export async function addCardToDeckAS(id, question, answer) {
   try {
-    const deck = await getDeck(title);
+    const deck = await getCard(id);
     await AsyncStorage.mergeItem(
       DECKS_STORAGE_KEY,
       JSON.stringify({
-        [title]: {
+        [id]: {
           questions: [...deck.questions, { question, answer }]
         }
       })
